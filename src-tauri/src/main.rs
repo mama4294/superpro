@@ -48,13 +48,17 @@ fn main() {
     tauri::Builder::default()
         .menu(create_window_menu())
         .on_menu_event(|event| {
+          let window = event.window();
             match event.menu_item_id() {
               "quit" => {
                 std::process::exit(0);
               }
-              "close" => {
-                event.window().close().unwrap();
-              }
+              "dark" => {
+                window.emit("theme-change", "dark").unwrap();
+            }
+            "light" => {
+                window.emit("theme-change", "light").unwrap();
+            }
               _ => {}
             }
           })
