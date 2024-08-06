@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
+import NewProjectDialog from "./components/newProjectDialog";
 
 function Editor() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -12,6 +13,7 @@ function Editor() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
+      <NewProjectDialog />
       <h1 className="text-3xl font-bold">SuperPro</h1>
     </div>
   );

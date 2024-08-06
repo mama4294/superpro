@@ -2,30 +2,34 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod menu;
-
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-// #[tauri::command]
-// fn greet(name: &str) -> String {
-//     format!("Hello, {}! You've been greeted from Rust!", name)
-// }
+mod database {
+  pub mod setup; // Declare the `setup` module inside the `datebase` folder
+}
+use database::setup;
 
 fn main() {
     tauri::Builder::default()
-        .menu(menu::create_window_menu())
+          .invoke_handler(tauri::generate_handler![setup::create_new_database ])
+         .menu(menu::create_window_menu())
         .on_menu_event(|event| {
           let window = event.window();
             match event.menu_item_id() {
               "quit" => {
                 std::process::exit(0);
               }
+              "new" => {
+                window.emit("new-project-dialog",{}).unwrap();
+            }
               "open" => {
-                menu::open_file_dialog(window.clone());
+                setup::open_file_dialog(window.clone());
             }
               "dark" => {
                 window.emit("theme-change", "dark").unwrap();
+                println!("Dark Mode Activated");
             }
             "light" => {
                 window.emit("theme-change", "light").unwrap();
+                println!("Light Mode Activated");
             }
               _ => {}
             }

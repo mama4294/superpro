@@ -1,5 +1,5 @@
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
-use tauri::{api::dialog::FileDialogBuilder, Window};
+
 
 pub fn create_window_menu() -> Menu {
     return Menu::new()
@@ -37,11 +37,5 @@ pub fn create_window_menu() -> Menu {
 
 
 
-pub fn open_file_dialog(window: Window) {
-    FileDialogBuilder::new().pick_file(move |selected_file| {
-        if let Some(file_path) = selected_file {
-            window.emit("file-selected", file_path.to_string_lossy().into_owned()).unwrap();
-        }
-    });
-}
+
 
