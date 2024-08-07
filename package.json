@@ -24,10 +24,12 @@
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql#v1"
+    "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql#v1",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1",
+    "@types/file-saver": "^2.0.7",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.2.1",

@@ -14,36 +14,44 @@ import { listen } from "@tauri-apps/api/event";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api";
 import { useToast } from "./ui/use-toast";
+import { useStore } from "@/Store";
 
 function NewProjectDialog() {
   const [isOpen, setIsOpen] = useState(false);
-  const [projectName, setProjectName] = useState("");
+  const [projectTitle, setProjectTitle] = useState("");
   const [selectedFolderPath, setSelectedFolderPath] = useState("");
   const btnText = selectedFolderPath ? selectedFolderPath : "Select Location";
   const { toast } = useToast();
+  const store = useStore();
 
   const handleSubmit = async () => {
     console.log("Create new project selected");
-    try {
-      await invoke("create_new_project", {
-        folder_path: selectedFolderPath,
-        project_name: projectName,
-      });
-      console.log("Project created");
-      setIsOpen(false);
-      toast({
-        title: "Success",
-        description: "Project Created",
-      });
-    } catch (err: any) {
-      console.log("Error creating Project");
+    const filePath = `${selectedFolderPath}/${projectTitle}.txt`;
+    store.updateProjectTitle(projectTitle);
+    store.updateFilePath(filePath);
+    console.log("Store:", store);
+    setIsOpen(false);
 
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem creating the project",
-      });
-    }
+    // try {
+    //   await invoke("create_new_project", {
+    //     folder_path: selectedFolderPath,
+    //     project_name: projectTitle,
+    //   });
+    //   console.log("Project created");
+    //   setIsOpen(false);
+    //   toast({
+    //     title: "Success",
+    //     description: "Project Created",
+    //   });
+    // } catch (err: any) {
+    //   console.log("Error creating Project");
+
+    //   toast({
+    //     variant: "destructive",
+    //     title: "Uh oh! Something went wrong.",
+    //     description: "There was a problem creating the project",
+    //   });
+    // }
   };
 
   const handleFolderSelect = async () => {
@@ -87,8 +95,8 @@ function NewProjectDialog() {
             </Label>
             <Input
               id="name"
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
+              value={projectTitle}
+              onChange={(e) => setProjectTitle(e.target.value)}
               className="col-span-3"
             />
           </div>

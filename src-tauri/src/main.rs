@@ -1,17 +1,11 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-#[macro_use]
-extern crate diesel;
 
 mod menu;
-mod db;
-mod schema;
-mod models;
 
 fn main() {
     tauri::Builder::default()
-          .invoke_handler(tauri::generate_handler![db::create_new_project ])
          .menu(menu::create_window_menu())
         .on_menu_event(|event| {
           let window = event.window();
@@ -23,7 +17,7 @@ fn main() {
                 window.emit("new-project-dialog",{}).unwrap();
             }
               "open" => {
-                db::open_file_dialog(window.clone());
+                window.emit("open-project-dialog",{}).unwrap();
             }
               "dark" => {
                 window.emit("theme-change", "dark").unwrap();
