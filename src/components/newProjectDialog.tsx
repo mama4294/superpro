@@ -25,18 +25,18 @@ function NewProjectDialog() {
   const handleSubmit = async () => {
     console.log("Create new project selected");
     try {
-      await invoke("create_new_database", {
+      await invoke("create_new_project", {
         folder_path: selectedFolderPath,
         project_name: projectName,
       });
-      console.log("Database created");
+      console.log("Project created");
       setIsOpen(false);
       toast({
         title: "Success",
         description: "Project Created",
       });
     } catch (err: any) {
-      console.log("Error creating Database");
+      console.log("Error creating Project");
 
       toast({
         variant: "destructive",

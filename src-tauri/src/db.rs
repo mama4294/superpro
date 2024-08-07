@@ -3,16 +3,11 @@ use diesel::sqlite::SqliteConnection;
 use std::fs;
 use tauri::api::dialog::FileDialogBuilder;
 use tauri::Window;
+use crate::models::NewProject;
 
-
-// diesel::table! {
-//     project () {
-//         name -> Varchar,
-//     }
-// }
 
 #[tauri::command(rename_all = "snake_case")]
-pub fn create_new_database(window: tauri::Window, folder_path: String, project_name:String) {
+pub fn create_new_project(window: tauri::Window, folder_path: String, project_name:String) {
     println!("create_new_database function called");
 
     let database_url = format!("{}/{}.sqlite", folder_path, project_name);
@@ -33,15 +28,24 @@ pub fn create_new_database(window: tauri::Window, folder_path: String, project_n
 
    // Establish the connection using the specified file path
    match establish_connection(&database_url) {
-    Ok(_) => {
-        println!("Database connection established.");
-        window.emit("database-created", database_url).unwrap();
+        Ok(_) => {
+            println!("Database connection established.");
+            window.emit("database-created", database_url).unwrap();
+        }
+        Err(e) => {
+            println!("Error establishing database connection: {}", e);
+            window.emit("database-error", e.to_string()).unwrap();
+        }
     }
-    Err(e) => {
-        println!("Error establishing database connection: {}", e);
-        window.emit("database-error", e.to_string()).unwrap();
-    }
-}
+
+    //Write project data to database
+    let new_database = NewProject {
+        name: &project_name,
+    };
+
+    // crate::ops::project_ops::create_project(new_database);
+
+
 
 
 }
@@ -50,25 +54,6 @@ pub fn establish_connection(database_url: &str) -> Result<SqliteConnection, dies
     SqliteConnection::establish(database_url)
 }
 
-
-// #[tauri::command]
-// pub fn create_new_database(window: Window) -> Result<()> {
-//     let path = PathBuf::from("new_database.sqlite");
-//     let conn = Connection::open(&path)?;
-    
-//     // You can also execute SQL statements to initialize your database here if needed.
-//     // Example:
-//     // conn.execute(
-//     //     "CREATE TABLE person (
-//     //         id INTEGER PRIMARY KEY,
-//     //         name TEXT NOT NULL
-//     //     )",
-//     //     [],
-//     // )?;
-
-//     window.emit("database-created", path.to_string_lossy().into_owned()).unwrap();
-//     Ok(())
-// }
 
 #[tauri::command]
 pub fn open_file_dialog(window: Window) {
