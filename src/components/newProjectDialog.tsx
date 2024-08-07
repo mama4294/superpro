@@ -12,9 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { listen } from "@tauri-apps/api/event";
 import { useEffect, useState } from "react";
-import { invoke } from "@tauri-apps/api";
 import { useToast } from "./ui/use-toast";
-import { useStore } from "@/Store";
+// import { useStore } from "@/Store";
 
 function NewProjectDialog() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,14 +21,14 @@ function NewProjectDialog() {
   const [selectedFolderPath, setSelectedFolderPath] = useState("");
   const btnText = selectedFolderPath ? selectedFolderPath : "Select Location";
   const { toast } = useToast();
-  const store = useStore();
+  // const store = useStore();
 
   const handleSubmit = async () => {
     console.log("Create new project selected");
     const filePath = `${selectedFolderPath}/${projectTitle}.txt`;
-    store.updateProjectTitle(projectTitle);
-    store.updateFilePath(filePath);
-    console.log("Store:", store);
+    // store.updateProjectTitle(projectTitle);
+    // store.updateFilePath(filePath);
+    // console.log("Store:", store);
     setIsOpen(false);
 
     // try {

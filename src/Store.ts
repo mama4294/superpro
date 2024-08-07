@@ -16,17 +16,17 @@ export interface State {
 //   updateFilePath: (path) => set({ filePath: path }),
 // }));
 
-export const useStore = create<State>(
-  persist(
-    (set, get) => ({
-      projectTitle: "Untitled Project",
-      filePath: "",
-      updateProjectTitle: (title) => set({ projectTitle: title }),
-      updateFilePath: (path) => set({ filePath: path }),
-    }),
-    {
-      name: "food-storage", //Key in storage
-      storage: createJSONStorage(() => sessionStorage),
-    }
-  )
-);
+// export const useStore = create<State>(
+//   persist(
+//     (set, get) => ({
+//       projectTitle: "Untitled Project",
+//       filePath: "",
+//       updateProjectTitle: (title) => set({ projectTitle: title }),
+//       updateFilePath: (path) => set({ filePath: path }),
+//     }),
+//     {
+//       name: "food-storage", //Key in storage
+//       storage: createJSONStorage(() => sessionStorage),
+//     }
+//   )
+// );
